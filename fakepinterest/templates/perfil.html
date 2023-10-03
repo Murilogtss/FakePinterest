@@ -1,0 +1,56 @@
+{% extends 'homepage.html' %}
+
+{% block titulo %}
+    Perfil - {{ usuario.username }}
+{% endblock %}
+
+{% block body %}
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h1 style="text-align: center; text-transform: capitalize; font-size: 1.8em">{{ usuario.username }}</h1>
+        {% if form %}
+      <form class="bloco-add-img" method="POST" enctype="multipart/form-data">
+          {{ form.csrf_token }}
+        <h2>Enviar imagem</h2>
+
+        <div class="bloco-input-botao">
+          <div class="bloco-arquivo">
+            {{ form.foto() }}
+            {{ form.foto.label(class="foto") }}
+          </div>
+
+          {{ form.botao_confirmacao(class="botao-login") }}
+        </div>
+      </form>
+        {% endif %}
+
+      <div class="conteudo">
+        {% for foto in usuario.fotos %}
+            <div class="bloco-imagem">
+                <img src="{{url_for('static', filename='fotos_posts/{}'.format(foto.imagem))}}">
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <script>
+        let input = document.getElementById('foto')
+        let imagem = document.querySelector('.foto')
+
+        input.addEventListener('change', () => {
+            let inputImagem = document.querySelector("input[type='file']").files[0]
+            imagem.innerHTML = inputImagem.name
+        })
+    </script>
+
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+
